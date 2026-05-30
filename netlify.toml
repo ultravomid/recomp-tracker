@@ -1,0 +1,8 @@
+# Konfigurasi Netlify
+# File ini memberitahu Netlify di mana letak functions dan file publish.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Tidak ada build command — ini situs statis HTML + serverless functions.
