@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendamping Diet Ahmad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1410;
+  --bg-card: #1a211b;
+  --bg-card2: #212a22;
+  --green: #4ade80;
+  --green-deep: #1d9e75;
+  --amber: #fbbf24;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --purple: #c084fc;
+  --text: #e8efe9;
+  --text-dim: #8fa491;
+  --text-dimmer: #5f7061;
+  --border: #2a3329;
+  --radius: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  padding-bottom: 80px;
+  background-image: radial-gradient(circle at 20% 0%, rgba(29,158,117,0.08) 0%, transparent 40%);
+}
+.wrap { max-width: 640px; margin: 0 auto; padding: 1rem; }
+h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 600; }
+.app-header { padding: 1.25rem 0 0.5rem; }
+.app-header .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); font-weight: 600; }
+.app-header h1 { font-size: 26px; line-height: 1.1; margin: 4px 0 2px; }
+.app-header .sub { font-size: 13px; color: var(--text-dim); }
+
+/* Tabs */
+.tabbar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(15,20,16,0.92); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
+  overflow-x: auto; max-width: 640px; margin: 0 auto;
+}
+.tab-btn {
+  background: none; border: none; color: var(--text-dimmer);
+  font-family: 'Outfit'; font-size: 9px; font-weight: 500;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; padding: 4px 6px; border-radius: 10px; transition: color 0.2s;
+  flex: 1; min-width: 44px;
+}
+.tab-btn svg { width: 20px; height: 20px; stroke-width: 1.8; }
+.tab-btn.active { color: var(--green); }
+.tab-content { display: none; animation: fade 0.3s; }
+.tab-content.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Cards */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; margin-bottom: 0.85rem; }
+.card-title { font-family: 'Fraunces'; font-size: 17px; font-weight: 600; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 8px; }
+.sec-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dimmer); font-weight: 600; margin: 1.5rem 0 0.6rem; }
+
+/* Rings / progress */
+.rings { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem; }
+.ring-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; position: relative; overflow: hidden; }
+.ring-card.full { grid-column: 1 / -1; }
+.ring-val { font-family: 'Fraunces'; font-size: 30px; font-weight: 600; line-height: 1; }
+.ring-unit { font-size: 12px; color: var(--text-dim); }
+.ring-label { font-size: 11px; color: var(--text-dimmer); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px; }
+.progress-track { height: 8px; background: var(--bg-card2); border-radius: 8px; overflow: hidden; margin-top: 10px; }
+.progress-fill { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
+
+.net-display { font-family: 'Fraunces'; font-size: 44px; font-weight: 700; line-height: 1; }
+.net-sub { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.macro-row { display: flex; gap: 8px; margin-top: 10px; }
+.macro-pill { flex: 1; background: var(--bg-card2); border-radius: 10px; padding: 8px; text-align: center; }
+.macro-pill .v { font-weight: 600; font-size: 15px; }
+.macro-pill .l { font-size: 10px; color: var(--text-dim); text-transform: uppercase; }
+
+/* Inputs */
+input, select, textarea {
+  font-family: 'Outfit'; font-size: 15px;
+  background: var(--bg-card2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 10px; padding: 11px 12px; width: 100%; outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--green-deep); }
+input::placeholder { color: var(--text-dimmer); }
+label { font-size: 12px; color: var(--text-dim); display: block; margin-bottom: 5px; font-weight: 500; }
+.btn {
+  font-family: 'Outfit'; font-weight: 600; font-size: 14px;
+  background: var(--green-deep); color: #fff; border: none;
+  border-radius: 10px; padding: 12px 16px; cursor: pointer; width: 100%;
+  transition: transform 0.1s, background 0.2s;
+}
+.btn:active { transform: scale(0.98); }
+.btn-ghost { background: var(--bg-card2); color: var(--text); border: 1px solid var(--border); }
+.btn-sm { padding: 7px 12px; font-size: 13px; width: auto; }
+.btn-row { display: flex; gap: 8px; }
+
+/* Food search */
+.food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.food-item:last-child { border-bottom: none; }
+.food-item .info .name { font-size: 14px; font-weight: 500; }
+.food-item .info .det { font-size: 11px; color: var(--text-dim); }
+.food-item .add-btn { background: var(--green-deep); color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+
+.log-entry { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.log-entry:last-child { border-bottom: none; }
+.log-entry .x { color: var(--text-dimmer); cursor: pointer; font-size: 16px; padding: 0 4px; }
+.log-cat { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dimmer); margin: 12px 0 4px; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip { background: var(--bg-card2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 12px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+.chip:active { background: var(--green-deep); border-color: var(--green-deep); }
+
+.note { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+.note-warn { background: rgba(251,191,36,0.1); border-left: 3px solid var(--amber); padding: 10px 12px; border-radius: 0 10px 10px 0; font-size: 13px; color: #f5d488; margin: 8px 0; }
+.note-good { background: rgba(74,222,128,0.08); border-left: 3px solid var(--green); padding: 10px 12px; border-radius: 0 10px 10px 0; font-size: 13px; color: #a7e8c0; margin: 8px 0; }
+.note-info { background: rgba(96,165,250,0.08); border-left: 3px solid var(--blue); padding: 10px 12px; border-radius: 0 10px 10px 0; font-size: 13px; color: #a9cdf5; margin: 8px 0; }
+
+/* Research cards */
+.study { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.8rem; }
+.study .uni { font-size: 11px; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.study h3 { font-size: 15px; margin: 4px 0 6px; line-height: 1.25; }
+.study .finding { font-size: 13px; color: var(--text-dim); }
+.study .tag { display: inline-block; font-size: 10px; background: var(--bg-card2); color: var(--text-dim); padding: 3px 8px; border-radius: 6px; margin: 6px 4px 0 0; }
+.study .cite { font-size: 10px; color: var(--text-dimmer); font-style: italic; margin-top: 8px; }
+
+.ai-box { background: linear-gradient(135deg, rgba(29,158,117,0.12), rgba(96,165,250,0.08)); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; }
+.ai-box .ai-head { display: flex; align-items: center; gap: 8px; font-family: 'Fraunces'; font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.ai-line { font-size: 13px; line-height: 1.7; margin: 8px 0; padding-left: 18px; position: relative; }
+.ai-line::before { content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.ai-line.warn::before { background: var(--amber); }
+.ai-line.imp::before { background: var(--blue); }
+
+.streak-grid { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+.streak-day { width: 26px; height: 26px; border-radius: 6px; background: var(--bg-card2); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-dimmer); }
+.streak-day.done { background: var(--green-deep); color: #fff; }
+
+.kv { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-dim); }
+.kv .v { font-weight: 500; }
+.date-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
+.date-nav button { background: var(--bg-card2); border: 1px solid var(--border); color: var(--text); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 16px; }
+.date-nav .date { font-weight: 600; font-size: 15px; }
+.small-link { color: var(--green); font-size: 12px; cursor: pointer; text-decoration: none; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.divider { height: 1px; background: var(--border); margin: 10px 0; }
+.collapse-head { cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.collapse-body { display: none; margin-top: 10px; }
+.collapse-body.open { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="app-header">
+    <div class="eyebrow">Pendamping Perjalanan Diet</div>
+    <h1>Recomp Tracker</h1>
+    <div class="sub">86kg → 65kg · Turun lemak, naik otot · Berbasis riset</div>
+  </div>
+
+  <!-- ===================== DASHBOARD ===================== -->
+  <div class="tab-content active" id="tab-home">
+    <div class="date-nav">
+      <button onclick="changeDay(-1)">‹</button>
+      <span class="date" id="currentDate">Hari ini</span>
+      <button onclick="changeDay(1)">›</button>
+    </div>
+
+    <div class="ring-card full">
+      <div class="flex-between">
+        <div style="text-align:left;">
+          <div class="ring-label" style="margin-top:0;">Kalori Bersih (Net)</div>
+          <div class="net-display" id="netCal">0</div>
+          <div class="net-sub" id="netMsg">Target: di bawah 1.800 kkal</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="note" style="font-size:11px;">Masuk <span id="inCal" style="color:var(--green);font-weight:600;">0</span></div>
+          <div class="note" style="font-size:11px;">Keluar <span id="outCal" style="color:var(--amber);font-weight:600;">0</span></div>
+          <div class="note" style="font-size:11px;">BMR <span style="color:var(--text-dim);font-weight:600;">~1715</span></div>
+        </div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="calBar" style="width:0%;background:var(--green);"></div></div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="v" id="mProt" style="color:var(--green);">0g</div><div class="l">Protein /189g</div></div>
+        <div class="macro-pill"><div class="v" id="mCarb" style="color:var(--blue);">0g</div><div class="l">Karbo</div></div>
+        <div class="macro-pill"><div class="v" id="mFat" style="color:var(--amber);">0g</div><div class="l">Lemak</div></div>
+        <div class="macro-pill"><div class="v" id="mSugar" style="color:var(--red);">0g</div><div class="l">Gula /50g</div></div>
+      </div>
+    </div>
+
+    <div class="rings">
+      <div class="ring-card">
+        <div class="ring-val" id="stepsToday" style="color:var(--blue);">0</div>
+        <div class="ring-unit">langkah</div>
+        <div class="ring-label">Aktivitas</div>
+      </div>
+      <div class="ring-card">
+        <div class="ring-val" id="proteinPct" style="color:var(--green);">0%</div>
+        <div class="ring-unit">dari target</div>
+        <div class="ring-label">Protein</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="flex-between">
+        <div class="card-title" style="margin:0;">💧 Minum Air</div>
+        <div><b id="waterMl" style="color:var(--blue);font-size:18px;">0</b> <span class="note">/ 2500 ml</span></div>
+      </div>
+      <div class="progress-track" style="margin-top:10px;"><div class="progress-fill" id="waterBar" style="width:0%;background:var(--blue);"></div></div>
+      <div class="chip-row" style="margin-top:10px;">
+        <div class="chip" onclick="addWater(250)">+1 gelas (250ml)</div>
+        <div class="chip" onclick="addWater(600)">+1 botol (600ml)</div>
+        <div class="chip" onclick="addWater(1000)">+1 L</div>
+        <div class="chip" onclick="addWater(-250)" style="color:var(--red);">− 250ml</div>
+      </div>
+      <div id="waterMsg" class="note" style="margin-top:8px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔥 Bakar Kalori (Aktivitas)</div>
+      <div class="chip-row" id="quickActivities"></div>
+      <div class="divider"></div>
+      <label>Atau input manual (dari Garmin)</label>
+      <div class="grid2">
+        <input type="text" id="actName" placeholder="cth: Jalan pagi">
+        <input type="number" id="actCal" placeholder="kkal (235)">
+      </div>
+      <div class="grid2" style="margin-top:8px;">
+        <input type="number" id="actSteps" placeholder="langkah (5921)">
+        <button class="btn btn-sm" onclick="addActivity()">+ Catat</button>
+      </div>
+      <div id="activityLog" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="note-info" id="garminNote">
+      📊 <strong>Akurasi kalori Garmin:</strong> Garmin Forerunner 965 punya HR optik + GPS, jadi cukup akurat untuk kardio (jalan/lari/sepeda) — biasanya meleset 10–20%. Untuk angkat beban & gerakan statis, estimasinya cenderung kurang akurat (bisa over/under 25–30%). Pakai sebagai panduan tren, bukan angka mutlak.
+    </div>
+  </div>
+
+  <!-- ===================== FOOD LOG ===================== -->
+  <div class="tab-content" id="tab-food">
+    <div class="card">
+      <div class="card-title">🍽️ Tambah Makanan</div>
+      <input type="text" id="foodSearch" placeholder="Cari: ayam, telur, kentang, PN1..." oninput="searchFood()">
+      <div id="searchResults" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">➕ Input Manual</div>
+      <div class="note" style="margin-bottom:8px;">Ketik nama makanan lalu tap <b>✨ Estimasi</b> — macro otomatis terisi, tinggal sesuaikan kalau perlu.</div>
+      <input type="text" id="mName" placeholder="cth: Pisang bolen, nasi goreng, es teh">
+      <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:8px;color:var(--green);" onclick="estimateFood()">✨ Estimasi Otomatis</button>
+      <div id="estMsg" class="note" style="margin-top:6px;"></div>
+      <div class="grid2" style="margin-top:8px;">
+        <input type="number" id="mCal" placeholder="Kalori">
+        <input type="number" id="mP" placeholder="Protein (g)">
+      </div>
+      <div class="grid2" style="margin-top:8px;">
+        <input type="number" id="mC" placeholder="Karbo (g)">
+        <input type="number" id="mF" placeholder="Lemak (g)">
+      </div>
+      <input type="number" id="mS" placeholder="Gula (g) — opsional" style="margin-top:8px;">
+      <button class="btn" style="margin-top:10px;" onclick="addManualFood()">+ Tambah ke Log</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 Log Makan Hari Ini</div>
+      <div id="foodLog"><div class="note">Belum ada makanan dicatat.</div></div>
+    </div>
+  </div>
+
+  <!-- ===================== RESEARCH ===================== -->
+  <div class="tab-content" id="tab-research">
+    <div class="sec-label">55 Paper Open-Access — Riset + Referensi Tergabung</div>
+
+    <div class="thread-card" id="threadCard" style="background:linear-gradient(135deg,rgba(29,158,117,0.15),rgba(96,165,250,0.1));border:1px solid var(--border);border-radius:16px;padding:1.1rem;margin-bottom:0.85rem;">
+      <h3 style="font-size:15px;margin-bottom:8px;color:var(--green);">🧵 Benang Merah Semua Riset</h3>
+      <div id="threadContent"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">✨ Relevan Untukmu Sekarang</div>
+      <div class="note" style="margin-bottom:8px;">Diurutkan otomatis sesuai progres & target kamu.</div>
+      <div id="relevantList"><div class="note">Memuat...</div></div>
+    </div>
+
+    <input type="text" id="refSearch" placeholder="Cari: protein, kardio, tidur, gula, defisit..." oninput="renderRefs()" style="margin:6px 0 10px;">
+    <div id="refCatFilter" class="chip-row" style="margin-bottom:12px;"></div>
+    <div id="refList"></div>
+
+    <div class="card" style="border-color:var(--purple);">
+      <div class="card-title">📚 Bookmark (<span id="bookmarkCount">0</span>)</div>
+      <div id="bookmarkList"><div class="note">Tap ♡ pada paper untuk simpan ke sini.</div></div>
+    </div>
+  </div>
+
+  <!-- ===================== AI EVAL ===================== -->
+  <div class="tab-content" id="tab-ai">
+    <div class="ai-box">
+      <div class="ai-head">✨ Evaluasi AI Perjalananmu</div>
+      <div id="aiEval"><div class="note">Catat makanan & aktivitas beberapa hari untuk evaluasi yang lebih akurat.</div></div>
+    </div>
+
+    <div class="card" style="margin-top:0.85rem;">
+      <div class="card-title">📈 Ringkasan 7 Hari</div>
+      <div class="kv"><span class="k">Rata-rata kalori masuk</span><span class="v" id="avg7in">—</span></div>
+      <div class="kv"><span class="k">Rata-rata kalori bakar</span><span class="v" id="avg7out">—</span></div>
+      <div class="kv"><span class="k">Rata-rata protein</span><span class="v" id="avg7prot">—</span></div>
+      <div class="kv"><span class="k">Rata-rata minum air</span><span class="v" id="avg7water">—</span></div>
+      <div class="kv"><span class="k">Hari tercatat</span><span class="v" id="days7">0 / 7</span></div>
+      <div class="streak-grid" id="streakGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚖️ Update Berat & Lingkar Perut</div>
+      <div class="grid2">
+        <div><label>Berat (kg)</label><input type="number" id="weightIn" placeholder="86"></div>
+        <div><label>Lingkar perut (cm)</label><input type="number" id="waistIn" placeholder="98"></div>
+      </div>
+      <button class="btn" style="margin-top:10px;" onclick="logWeight()">Simpan Pengukuran</button>
+      <div id="weightHistory" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📉 Grafik Tren Berat & Lingkar Perut</div>
+      <canvas id="weightChart" height="160"></canvas>
+      <div id="chartLegendW" class="note" style="text-align:center;margin-top:6px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 Grafik Kalori (14 Hari)</div>
+      <canvas id="calChart" height="160"></canvas>
+      <div class="note" style="text-align:center;margin-top:6px;"><span style="color:var(--green)">●</span> Masuk &nbsp; <span style="color:var(--amber)">●</span> Bakar &nbsp; <span style="color:var(--text-dim)">┄</span> Target 1.800</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💧 Tren Minum Air (14 Hari)</div>
+      <canvas id="waterChart" height="150"></canvas>
+      <div class="note" style="text-align:center;margin-top:6px;"><span style="color:var(--blue)">●</span> ml per hari &nbsp; <span style="color:var(--text-dim)">┄</span> Target 2.500ml</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💪 Tren Protein (14 Hari)</div>
+      <canvas id="proteinChart" height="150"></canvas>
+      <div class="note" style="text-align:center;margin-top:6px;"><span style="color:var(--green)">●</span> gram protein &nbsp; <span style="color:var(--text-dim)">┄</span> Target 189g</div>
+    </div>
+
+    <div class="card" style="border-color:var(--green-deep);">
+      <div class="card-title">💾 Backup & Pindah Data</div>
+      <div class="note-info">Penting! Sebelum pakai versi baru aplikasi, Export dulu data di sini. Lalu Import di aplikasi baru — semua progres ikut pindah, tidak ada yang hilang.</div>
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn btn-sm" style="flex:1;" onclick="exportData()">⬇ Export (.json)</button>
+        <button class="btn btn-sm btn-ghost" style="flex:1;" onclick="document.getElementById('importFile').click()">⬆ Import</button>
+      </div>
+      <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
+      <div id="backupMsg" class="note" style="margin-top:8px;"></div>
+      <div class="divider"></div>
+      <button class="btn btn-sm btn-ghost" style="width:100%;color:var(--red);" onclick="resetData()">🗑 Reset Semua Data</button>
+    </div>
+  </div>
+
+  <!-- ===================== PLAN ===================== -->
+  <div class="tab-content" id="tab-plan">
+    <div class="sec-label">Panduan Harianmu</div>
+    <div class="card">
+      <div class="card-title">🎯 Target Harian</div>
+      <div class="kv"><span class="k">Kalori (defisit ~20%)</span><span class="v">~1.800 kkal</span></div>
+      <div class="kv"><span class="k">Protein (2.2g/kg)</span><span class="v">160–189 g</span></div>
+      <div class="kv"><span class="k">Per makan (4x)</span><span class="v">~34 g protein</span></div>
+      <div class="kv"><span class="k">Air</span><span class="v">2–3 L</span></div>
+      <div class="kv"><span class="k">Gula tambahan</span><span class="v">≈ 0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🍳 Template Makan (~1.800 kkal, 175g protein)</div>
+      <div class="log-cat">Pagi</div>
+      <div class="note">Americano + cuka apel → 3 telur + kentang 100g + sayur</div>
+      <div class="log-cat">Siang</div>
+      <div class="note">Ayam dada 200g + kentang 150g + sayur banyak</div>
+      <div class="log-cat">Sore</div>
+      <div class="note">PN1 1 sachet (+ whey jika perlu)</div>
+      <div class="log-cat">Malam</div>
+      <div class="note">Ayam dada 150g + 2 telur + sayur</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏋️ Jadwal Mingguan</div>
+      <div class="kv"><span class="k">Sen</span><span class="v">Gym Upper</span></div>
+      <div class="kv"><span class="k">Sel</span><span class="v">Jalan/Sepeda 45m</span></div>
+      <div class="kv"><span class="k">Rab</span><span class="v">Gym Lower</span></div>
+      <div class="kv"><span class="k">Kam</span><span class="v">Renang / jalan</span></div>
+      <div class="kv"><span class="k">Jum</span><span class="v">Gym Full + core</span></div>
+      <div class="kv"><span class="k">Sab</span><span class="v">Sepeda santai panjang</span></div>
+      <div class="kv"><span class="k">Min</span><span class="v">Istirahat / jalan ringan</span></div>
+    </div>
+
+    <div class="card">
+      <div class="collapse-head" onclick="this.parentElement.querySelector('.collapse-body').classList.toggle('open')">
+        <div class="card-title" style="margin:0;">🧂 Bumbu & PN1 — Catatan</div>
+        <span style="color:var(--text-dim);">▾</span>
+      </div>
+      <div class="collapse-body">
+        <div class="note-good"><strong>Bumbu tabur Mix-Mix & saus bulgogi Sasa:</strong> aman dipakai secukupnya untuk rasa. Bumbu tabur ~10–15 kkal/sajian, saus bulgogi Sasa ~25–35 kkal per sdm (ada gula & sodium). Hitung saus bulgogi ke log (sudah ada di database). Jangan berlebihan karena ada gula tambahan — 1 sdm cukup.</div>
+        <div class="note-warn"><strong>PN1:</strong> 1x/hari sebagai pengganti ngemil sore atau sarapan praktis. Protein nabati 16g bagus untuk serat & kenyang, tapi bukan pengganti protein hewani/whey untuk otot. Tidak untuk yang punya masalah ginjal.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== BUDGET ===================== -->
+  <div class="tab-content" id="tab-budget">
+    <div class="sec-label">Budget Tracker Diet</div>
+    <div class="ring-card full">
+      <div class="ring-label" style="margin-top:0;">Total Pengeluaran Bulan Ini</div>
+      <div class="net-display" id="budgetTotal" style="color:var(--green);">Rp 0</div>
+      <div class="net-sub" id="budgetMsg">Catat semua belanja diet & gym di sini</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💸 Catat Pengeluaran</div>
+      <input type="text" id="expName" placeholder="cth: Whey protein, Membership gym">
+      <div class="grid2" style="margin-top:8px;">
+        <input type="number" id="expAmount" placeholder="Rp (rupiah)">
+        <select id="expCat">
+          <option value="Makanan">🍗 Makanan</option>
+          <option value="Suplemen">💊 Suplemen</option>
+          <option value="Gym">🏋️ Gym/Membership</option>
+          <option value="Alat">🛠️ Alat olahraga</option>
+          <option value="Lainnya">📦 Lainnya</option>
+        </select>
+      </div>
+      <label style="margin-top:8px;">Berulang tiap bulan? (cth: membership)</label>
+      <select id="expRecur">
+        <option value="no">Sekali beli</option>
+        <option value="monthly">Tiap bulan (rutin)</option>
+      </select>
+      <button class="btn" style="margin-top:10px;" onclick="addExpense()">+ Catat Pengeluaran</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 Per Kategori (Bulan Ini)</div>
+      <canvas id="budgetChart" height="160"></canvas>
+      <div id="budgetBreakdown" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 Tren Bulanan</div>
+      <canvas id="budgetTrendChart" height="150"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🧾 Riwayat Pengeluaran</div>
+      <div id="expenseLog"><div class="note">Belum ada pengeluaran dicatat.</div></div>
+    </div>
+  </div>
+
+  <!-- ===================== REFERENCES ===================== -->
+  </div>
+
+<!-- ===================== TABBAR ===================== -->
+<div class="tabbar">
+  <button class="tab-btn active" data-tab="home" onclick="switchTab('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>Beranda</button>
+  <button class="tab-btn" data-tab="food" onclick="switchTab('food')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 002-2V2M5 2v20M16 2c-1.5 0-3 2-3 5s1.5 5 3 5v10"/></svg>Makan</button>
+  <button class="tab-btn" data-tab="budget" onclick="switchTab('budget')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18v12H3zM3 10h18M7 15h4"/></svg>Budget</button>
+  <button class="tab-btn" data-tab="ai" onclick="switchTab('ai')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21l2.3-7.4-6-4.6h7.6z"/></svg>Evaluasi</button>
+  <button class="tab-btn" data-tab="research" onclick="switchTab('research')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 2v6l-5 9a2 2 0 002 3h12a2 2 0 002-3l-5-9V2M7 2h10M8 14h8"/></svg>Riset</button>
+  <button class="tab-btn" data-tab="plan" onclick="switchTab('plan')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3 8-8M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Rencana</button>
+</div>
+
+<script>
+// ============ DATA ============
+const FOOD_DB = [
+  {n:"Ayam dada (rebus/panggang) 100g", c:165, p:31, cb:0, f:3.6},
+  {n:"Ayam dada 200g", c:330, p:62, cb:0, f:7.2},
+  {n:"Telur rebus (1 butir)", c:78, p:6.3, cb:0.6, f:5.3},
+  {n:"Telur (3 butir)", c:234, p:19, cb:1.8, f:16},
+  {n:"Kentang rebus 100g", c:87, p:1.9, cb:20, f:0.1},
+  {n:"Kentang panggang 150g", c:140, p:3, cb:32, f:0.2},
+  {n:"Pisang (1 buah ~120g)", c:105, p:1.3, cb:27, f:0.4},
+  {n:"Susu (100ml)", c:61, p:3.2, cb:4.8, f:3.3},
+  {n:"Americano (tanpa gula)", c:5, p:0.3, cb:0, f:0},
+  {n:"Whey protein (1 scoop ~30g)", c:120, p:24, cb:3, f:1.5},
+  {n:"PN1 (1 sachet 33g)", c:125, p:16, cb:13, f:1},
+  {n:"Saus bulgogi Sasa (1 sdm)", c:30, p:0.5, cb:6, f:0.2},
+  {n:"Bumbu tabur Mix-Mix (1 sajian)", c:12, p:0.3, cb:2, f:0.3},
+  {n:"Cuka apel (1 sdm)", c:3, p:0, cb:0.1, f:0},
+  {n:"Nasi putih 100g", c:130, p:2.7, cb:28, f:0.3},
+  {n:"Brokoli rebus 100g", c:35, p:2.4, cb:7, f:0.4},
+  {n:"Bayam rebus 100g", c:23, p:2.9, cb:3.8, f:0.4},
+  {n:"Alpukat (setengah ~100g)", c:160, p:2, cb:9, f:15},
+  {n:"Oat kering 40g", c:152, p:5.3, cb:27, f:2.7},
+  {n:"Greek yogurt plain 150g", c:88, p:15, cb:5.5, f:0.6},
+  {n:"Ikan salmon 100g", c:208, p:20, cb:0, f:13},
+  {n:"Tempe 100g", c:192, p:20, cb:7.6, f:11},
+  {n:"Tahu 100g", c:76, p:8, cb:1.9, f:4.8},
+  {n:"Roti gandum (1 lembar)", c:69, p:3.6, cb:12, f:1},
+  // -- Makanan pokok & sayur --
+  {n:"Nasi merah 100g", c:111, p:2.6, cb:23, f:0.9},
+  {n:"Mie instan (1 bungkus)", c:350, p:8, cb:50, f:13},
+  {n:"Singkong rebus 100g", c:112, p:1.4, cb:27, f:0.3},
+  {n:"Jagung rebus 100g", c:96, p:3.4, cb:21, f:1.5},
+  {n:"Sayur bayam bening 1 mangkok", c:40, p:3, cb:6, f:0.5},
+  {n:"Capcay sayur 1 porsi", c:120, p:5, cb:12, f:6},
+  {n:"Tumis kangkung 1 porsi", c:90, p:3, cb:8, f:5},
+  // -- Lauk warteg --
+  {n:"Ayam goreng (1 potong paha)", c:260, p:24, cb:8, f:15},
+  {n:"Ayam bakar (1 potong)", c:200, p:28, cb:3, f:9},
+  {n:"Ikan lele goreng (1 ekor)", c:230, p:22, cb:5, f:14},
+  {n:"Ikan kembung goreng (1 ekor)", c:180, p:21, cb:0, f:10},
+  {n:"Telur balado (1 butir)", c:130, p:7, cb:4, f:9},
+  {n:"Tempe goreng (2 potong)", c:170, p:11, cb:9, f:11},
+  {n:"Tahu goreng (2 potong)", c:140, p:9, cb:5, f:10},
+  {n:"Telur dadar (1 butir)", c:120, p:7, cb:1, f:10},
+  {n:"Perkedel kentang (1 buah)", c:100, p:3, cb:10, f:6},
+  {n:"Sambal (1 sdm)", c:20, p:0.5, cb:3, f:0.8},
+  {n:"Rendang daging (1 potong)", c:290, p:18, cb:5, f:22},
+  {n:"Soto ayam 1 mangkok", c:220, p:18, cb:15, f:9},
+  {n:"Gado-gado 1 porsi", c:300, p:12, cb:25, f:18},
+  // -- Buah lokal --
+  {n:"Pepaya 100g", c:43, p:0.5, cb:11, f:0.3},
+  {n:"Jeruk (1 buah sedang)", c:62, p:1.2, cb:15, f:0.2},
+  {n:"Apel (1 buah)", c:95, p:0.5, cb:25, f:0.3},
+  {n:"Mangga 100g", c:60, p:0.8, cb:15, f:0.4},
+  {n:"Semangka 100g", c:30, p:0.6, cb:8, f:0.2},
+  {n:"Alpukat utuh (1 buah)", c:320, p:4, cb:17, f:29},
+  {n:"Pisang kepok rebus (1 buah)", c:120, p:1.2, cb:31, f:0.3},
+  // -- Minuman --
+  {n:"Teh tawar (tanpa gula)", c:2, p:0, cb:0.5, f:0},
+  {n:"Teh manis (1 gelas)", c:90, p:0, cb:22, f:0},
+  {n:"Kopi susu gula aren (1 gelas)", c:200, p:3, cb:30, f:7},
+  {n:"Kopi hitam (tanpa gula)", c:5, p:0.3, cb:0, f:0},
+  {n:"Susu UHT full cream (250ml)", c:150, p:8, cb:12, f:8},
+  {n:"Susu UHT low fat (250ml)", c:100, p:8, cb:12, f:2.5},
+  {n:"Air kelapa (1 gelas)", c:45, p:1.7, cb:9, f:0.5},
+  {n:"Jus jeruk tanpa gula (1 gelas)", c:110, p:1.7, cb:26, f:0.5},
+];
+
+const QUICK_ACTIVITIES = [
+  {n:"Jalan 30m", c:130, s:3000},
+  {n:"Jalan 1 jam", c:260, s:6000},
+  {n:"Sepeda santai 45m", c:300, s:0},
+  {n:"Renang 30m", c:250, s:0},
+  {n:"Gym (angkat beban 1j)", c:200, s:0},
+  {n:"Chloe Ting 20m", c:140, s:0},
+];
+
+// ============ 55 RESEARCH UNIFIED ============
+// cat: kategori | type: jenis bukti | rel: relevansi dasar (0-100)
+const RESEARCH_DB = [
+  {id:1,cat:"Protein",type:"RCT",uni:"McMaster",y:2016,t:"Protein tinggi saat defisit → naik otot + turun lemak bersamaan (Longland)",d:"RCT 4 minggu defisit 40%: protein 2.4g/kg → otot +1.2kg, lemak −4.8kg. Bukti terkuat recomposition nyata.",url:"https://academic.oup.com/ajcn/article/103/3/738/4564609",tags:["RCT","Gold standard"],rel:96},
+  {id:2,cat:"Protein",type:"Review",uni:"CUNY/Lehman",y:2018,t:"Sebar protein 0.4g/kg ke min 4 kali makan (Schoenfeld & Aragon)",d:"Untuk maksimalkan otot, ~0.4g/kg protein per makan, min 4x sehari. Alasan OMAD kurang ideal bangun otot.",url:"https://jissn.biomedcentral.com/articles/10.1186/s12970-018-0215-1",tags:["Meta-review","Distribusi"],rel:93},
+  {id:3,cat:"Latihan",type:"RCT",uni:"Cologne",y:2024,t:"Latihan beban + protein tinggi naik otot, turun lemak (Ioannidou)",d:"RCT 12 minggu: latihan+protein 2.5g/kg FFM → naik otot & kekuatan, turun lemak. Recomposition terbukti.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC8977237/",tags:["RCT 12 minggu"],rel:91},
+  {id:4,cat:"Latihan",type:"RCT",uni:"Tampa",y:2018,t:"Resistance training jaga otot saat diet (Miller)",d:"RCT: latihan beban + diet turun lemak, jaga otot, naik kekuatan. RT = 'asuransi otot' saat defisit.",url:"https://pubmed.ncbi.nlm.nih.gov/29405780/",tags:["RCT"],rel:90},
+  {id:5,cat:"Protein",type:"RCT",uni:"McMaster",y:2015,t:"Whey pertahankan sintesis otot saat defisit kalori (Hector)",d:"RCT: suplemen whey mempertahankan sintesis protein otot selama restriksi energi. Mendukung whey post-workout.",url:"https://pubmed.ncbi.nlm.nih.gov/25644344/",tags:["RCT","Whey"],rel:88},
+  {id:6,cat:"Protein",type:"Meta-analysis",uni:"McMaster",y:2018,t:"Meta-analisis protein + resistance training (Morton)",d:"Meta 49 RCT: protein tambahan + RT naikkan massa & kekuatan. Plateau manfaat ~1.6g/kg.",url:"https://bjsm.bmj.com/content/52/6/376",tags:["Meta","BJSM"],rel:87},
+  {id:7,cat:"Protein",type:"Position Stand",uni:"ISSN",y:2017,t:"ISSN Position Stand: Protein dan Latihan",d:"Posisi resmi: 1.4–2.0g/kg untuk orang aktif; 2–3× RDA bantu fat loss saat defisit.",url:"https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8",tags:["ISSN","Official"],rel:89},
+  {id:8,cat:"Recomp",type:"Review",uni:"Nutrients",y:2020,t:"Body recomposition: bisakah bangun otot & turun lemak bersamaan?",d:"Review: recomposition paling cepat pada pemula, orang kelebihan berat, atau yang kembali latihan — kondisi Ahmad sekarang.",url:"https://journals.lww.com/nsca-scj/fulltext/2020/10000/body_recomposition.aspx",tags:["Review","Recomp"],rel:94},
+  {id:9,cat:"Recomp",type:"Rapid Review",uni:"JEHS",y:2025,t:"Strategi naik otot saat turun lemak (2019–2024)",d:"Rapid review strategi recomposition 5 tahun: protein tinggi + RT + defisit moderat.",url:"https://apcz.umk.pl/JEHS/article/view/59391",tags:["Review","Strategi"],rel:90},
+  {id:10,cat:"Latihan",type:"Network Meta",uni:"BMJ",y:2023,t:"Resep resistance training untuk kekuatan & hipertrofi",d:"Network meta-analysis: volume, intensitas, frekuensi optimal. 10–20 set/minggu per otot.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC10579494/",tags:["Meta","Protocol"],rel:84},
+  {id:11,cat:"Latihan",type:"RCT",uni:"Front Endocrinol",y:2025,t:"Resistance training kunci penurunan berat berkualitas",d:"Latihan beban = strategi utama agar berat turun tanpa kehilangan otot.",url:"https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2025.1725500/full",tags:["RT","Baru"],rel:88},
+  {id:12,cat:"Latihan",type:"Network Meta",uni:"Front Nutr",y:2025,t:"Perbandingan jenis olahraga saat defisit kalori",d:"RT + aerobik unggul untuk komposisi tubuh saat defisit (concurrent training).",url:"https://www.frontiersin.org/journals/nutrition/articles/10.3389/fnut.2025.1579024/full",tags:["Exercise","Baru"],rel:86},
+  {id:13,cat:"Kardio",type:"Review",uni:"Sports Med",y:2019,t:"Concurrent training: gabung beban + endurance",d:"Cara menggabungkan kardio & beban tanpa interference effect.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC6710320/",tags:["Kardio","Kombinasi"],rel:81},
+  {id:14,cat:"Kardio",type:"Meta-analysis",uni:"Obes Rev",y:2021,t:"Efek HIIT pada lemak tubuh",d:"HIIT efektif bakar lemak; berguna sebagai finisher saat napas sudah lebih kuat.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC8336541/",tags:["HIIT"],rel:70},
+  {id:15,cat:"Kardio",type:"Review",uni:"PMC",y:2014,t:"Aerobik & penurunan lemak visceral",d:"Kardio efektif menurunkan lemak visceral (lemak perut berbahaya).",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3925973/",tags:["Kardio","Visceral"],rel:74},
+  {id:16,cat:"Tidur",type:"RCT",uni:"SUNY/Chicago",y:2010,t:"Kurang tidur saat diet → lebih banyak otot hilang (Nedeltcheva)",d:"RCT: tidur kurang saat defisit membuang lebih banyak otot, lemak bertahan. Tidur = pilar ke-4.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2951287/",tags:["RCT","Sleep"],rel:85},
+  {id:17,cat:"Tidur",type:"Review",uni:"PMC",y:2004,t:"Kurang tidur & hormon nafsu makan (ghrelin/leptin)",d:"Kurang tidur menaikkan ghrelin (lapar), menurunkan leptin (kenyang) — bikin diet lebih sulit.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC535701/",tags:["Sleep","Hormon"],rel:79},
+  {id:18,cat:"Diet",type:"Position Stand",uni:"ISSN",y:2017,t:"ISSN Position Stand: Diet & Komposisi Tubuh",d:"Review semua jenis diet (keto, IF, low-carb, high-protein). Total kalori & protein yang menentukan.",url:"https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0174-y",tags:["ISSN","Diet"],rel:83},
+  {id:19,cat:"Diet",type:"Meta-analysis",uni:"PMC",y:2020,t:"Puasa intermiten vs defisit harian biasa",d:"Hasil serupa jika kalori sama. Pilih yang paling bisa dijalani konsisten.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC7021351/",tags:["IF","Defisit"],rel:68},
+  {id:20,cat:"Diet",type:"Meta-analysis",uni:"Nutr Rev",y:2015,t:"Frekuensi makan & komposisi tubuh",d:"Frekuensi makan tidak sepenting total kalori & protein harian.",url:"https://pubmed.ncbi.nlm.nih.gov/25862601/",tags:["Frekuensi"],rel:67},
+  {id:21,cat:"Defisit",type:"Review",uni:"PMC",y:2015,t:"Kecepatan turun berat & retensi otot",d:"Turun terlalu cepat membuang lebih banyak otot; defisit moderat 0.5–1kg/minggu lebih baik.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC4421992/",tags:["Rate","Defisit"],rel:80},
+  {id:22,cat:"Defisit",type:"Review",uni:"Adv Nutr",y:2017,t:"Menjaga otot sehat selama penurunan berat",d:"Review komprehensif strategi jaga otot selama defisit: protein + latihan + protein per makan.",url:"https://advances.nutrition.org/article/S2161-8313(22)00681-0/fulltext",tags:["Review","Otot"],rel:82},
+  {id:23,cat:"Defisit",type:"Review",uni:"PMC",y:2013,t:"Keseimbangan energi & komposisi tubuh",d:"Dasar termodinamika kalori masuk vs keluar dan kompensasi metabolik.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3673773/",tags:["Energy"],rel:75},
+  {id:24,cat:"Protein",type:"RCT",uni:"Nova Southeastern",y:2015,t:"Diet protein sangat tinggi 3.4g/kg + latihan beban (Antonio)",d:"Protein sangat tinggi + RT perbaiki komposisi tubuh tanpa efek buruk ginjal.",url:"https://jissn.biomedcentral.com/articles/10.1186/s12970-015-0100-0",tags:["RCT","High Protein"],rel:81},
+  {id:25,cat:"Protein",type:"RCT",uni:"McMaster",y:2015,t:"Protein nabati vs hewani untuk otot (van Vliet)",d:"Protein hewani umumnya lebih anabolik (leusin tinggi). Relevan untuk pilihan PN1 vs telur/ayam.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC4564867/",tags:["Sumber Protein"],rel:77},
+  {id:26,cat:"Protein",type:"Review",uni:"J Nutr",y:2013,t:"Ambang leusin & sintesis protein otot",d:"Leusin memicu sintesis otot; whey & protein hewani kaya leusin.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3850644/",tags:["Leucine"],rel:75},
+  {id:27,cat:"Timing",type:"Meta-analysis",uni:"ISSN",y:2013,t:"Timing protein: sebelum vs sesudah latihan (Schoenfeld)",d:"'Anabolic window' lebih lebar dari mitos; total harian lebih penting dari timing.",url:"https://jissn.biomedcentral.com/articles/10.1186/1550-2783-10-53",tags:["Timing"],rel:65},
+  {id:28,cat:"Suplemen",type:"Position Stand",uni:"ISSN",y:2017,t:"ISSN Position Stand: Kreatin",d:"Kreatin 3–5g/hari aman & efektif untuk kekuatan, massa otot, & kognitif.",url:"https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z",tags:["ISSN","Kreatin"],rel:72},
+  {id:29,cat:"Suplemen",type:"Position Stand",uni:"ISSN",y:2021,t:"ISSN: Kafein & performa olahraga",d:"Kafein (americano) tingkatkan performa & oksidasi lemak. Pre-workout alami.",url:"https://jissn.biomedcentral.com/articles/10.1186/s12970-020-00383-4",tags:["ISSN","Kafein"],rel:69},
+  {id:30,cat:"Serat",type:"Review",uni:"Nutr Rev",y:2009,t:"Serat, rasa kenyang & berat badan",d:"Serat (PN1 & sayur) menekan nafsu makan & bantu kontrol berat. Target 25–30g/hari.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC6360548/",tags:["Serat"],rel:71},
+  {id:31,cat:"Hidrasi",type:"Review",uni:"Nutrients",y:2019,t:"Status hidrasi & fungsi metabolik",d:"Hidrasi memengaruhi metabolisme & performa. Target 2.5L+ saat olahraga.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC6603652/",tags:["Hidrasi"],rel:76},
+  {id:32,cat:"Gula",type:"Guideline",uni:"WHO",y:2015,t:"WHO: Asupan gula bebas",d:"Batasi gula bebas <10% energi (~50g/hari); idealnya <5%. Melebihi naikkan risiko obesitas.",url:"https://www.who.int/news-room/fact-sheets/detail/healthy-diet",tags:["WHO","Official"],rel:74},
+  {id:33,cat:"Gula",type:"Guideline",uni:"AHA",y:2016,t:"American Heart Association: Gula tambahan",d:"AHA: maks 36g/hari (pria). Gula tambahan tinggi terkait penyakit jantung & lemak visceral.",url:"https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sugar",tags:["AHA","Official"],rel:73},
+  {id:34,cat:"Pemerintah",type:"Guideline",uni:"USDA & HHS",y:2025,t:"Dietary Guidelines for Americans 2025–2030",d:"Panduan resmi AS: real food, protein tiap makan, batasi ultra-processed & gula.",url:"https://www.dietaryguidelines.gov/",tags:["USA","Official"],rel:80},
+  {id:35,cat:"Pemerintah",type:"Guideline",uni:"HHS",y:2018,t:"Physical Activity Guidelines for Americans (2nd ed)",d:"Resmi: 150–300 menit aerobik/minggu + 2× latihan kekuatan.",url:"https://health.gov/our-work/nutrition-physical-activity/physical-activity-guidelines",tags:["USA","Official"],rel:75},
+  {id:36,cat:"Pemerintah",type:"Guideline",uni:"WHO",y:2020,t:"WHO Guidelines: Aktivitas Fisik & Perilaku Sedentari",d:"Pedoman global aktivitas fisik untuk kesehatan & komposisi tubuh.",url:"https://www.who.int/publications/i/item/9789240015128",tags:["WHO","Official"],rel:73},
+  {id:37,cat:"Pemerintah",type:"Guideline",uni:"National Academies",y:2005,t:"Dietary Reference Intakes: Energi, Protein, Makronutrien",d:"Dasar ilmiah kebutuhan protein & energi (RDA 0.8g/kg sebagai minimum).",url:"https://www.ncbi.nlm.nih.gov/books/NBK56068/",tags:["NIH","Official"],rel:72},
+  {id:38,cat:"Pemerintah",type:"Guideline",uni:"EFSA",y:2012,t:"EFSA: Dietary Reference Values for Protein",d:"Acuan resmi protein Uni Eropa untuk dewasa & orang aktif.",url:"https://www.efsa.europa.eu/en/efsajournal/pub/2557",tags:["Eropa","Official"],rel:74},
+  {id:39,cat:"Pemerintah",type:"Guideline",uni:"EFSA",y:2013,t:"EFSA: Dietary Reference Values for Energy",d:"Acuan kebutuhan energi & perhitungan TDEE versi Eropa.",url:"https://www.efsa.europa.eu/en/efsajournal/pub/3005",tags:["Eropa","Official"],rel:72},
+  {id:40,cat:"Pemerintah",type:"Guideline",uni:"MHLW Jepang",y:2020,t:"Dietary Reference Intakes for Japanese (2020)",d:"Pedoman gizi resmi Jepang termasuk protein & energi.",url:"https://www.mhlw.go.jp/content/10900000/000862500.pdf",tags:["Jepang","Official"],rel:65},
+  {id:41,cat:"Pemerintah",type:"Guideline",uni:"NHS",y:2023,t:"NHS: Keeping active & exercise guidelines",d:"Panduan praktis pemerintah Inggris untuk olahraga & berat badan sehat.",url:"https://www.nhs.uk/live-well/exercise/",tags:["UK","Official"],rel:68},
+  {id:42,cat:"Pemerintah",type:"Guideline",uni:"NIH",y:2023,t:"NIH: Healthy Weight & Body Composition",d:"Sumber resmi soal pengelolaan berat & komposisi tubuh.",url:"https://www.nhlbi.nih.gov/health/educational/lose_wt/index.htm",tags:["NIH","Official"],rel:70},
+  {id:43,cat:"Latihan",type:"Review",uni:"Med Sci Sports Exerc",y:2022,t:"Mekanisme hipertrofi dari resistance training (Lim/Phillips)",d:"Review mekanisme: tegangan mekanis, stres metabolik, kerusakan otot — semua berperan.",url:"https://pubmed.ncbi.nlm.nih.gov/35389932/",tags:["Mekanisme"],rel:77},
+  {id:44,cat:"Latihan",type:"Review",uni:"Front Physiol",y:2015,t:"Intervensi nutrisi memperkuat hipertrofi (Morton)",d:"Review mekanisme nutrisi memperkuat hasil hipertrofi dari latihan beban.",url:"https://www.frontiersin.org/articles/10.3389/fphys.2015.00245/full",tags:["Nutrisi","RT"],rel:76},
+  {id:45,cat:"Latihan",type:"Review",uni:"Front Physiol",y:2017,t:"Latihan menjaga otot saat defisit energi berat",d:"Peran volume latihan & protein menjaga otot saat defisit berat.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC5522839/",tags:["Latihan","Defisit"],rel:76},
+  {id:46,cat:"Protein",type:"Review",uni:"Nutrients",y:2018,t:"Protein untuk hipertrofi otot dengan RT",d:"Review komprehensif protein + latihan beban untuk hipertrofi.",url:"https://www.mdpi.com/2072-6643/10/2/180",tags:["Review","Protein"],rel:78},
+  {id:47,cat:"Protein",type:"Review",uni:"Nutrients",y:2020,t:"Distribusi protein & hasil otot",d:"Bukti mendukung distribusi protein seimbang sepanjang hari.",url:"https://www.mdpi.com/2072-6643/12/5/1441",tags:["Distribusi"],rel:75},
+  {id:48,cat:"Protein",type:"Meta-analysis",uni:"J Cachexia Sarcopenia",y:2022,t:"Protein untuk massa & fungsi otot (meta-analisis)",d:"Meta-analisis protein untuk massa & fungsi otot pada dewasa sehat.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC8978023/",tags:["Meta"],rel:77},
+  {id:49,cat:"Protein",type:"Review",uni:"Appl Physiol Nutr Metab",y:2018,t:"Protein & latihan saat restriksi energi (Hector & Phillips)",d:"Strategi protein + latihan saat defisit untuk lindungi otot.",url:"https://pubmed.ncbi.nlm.nih.gov/29543046/",tags:["Protein","Defisit"],rel:79},
+  {id:50,cat:"Metabolisme",type:"Review",uni:"Am J Clin Nutr",y:2010,t:"Laju metabolisme istirahat & massa otot",d:"Lebih banyak otot = metabolisme istirahat sedikit lebih tinggi.",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2980962/",tags:["RMR"],rel:64},
+  {id:51,cat:"Hormon",type:"Review",uni:"Trends Endocrinol",y:2019,t:"Leptin, ghrelin & keseimbangan energi",d:"Hormon nafsu makan diatur oleh tidur & nutrisi. Penting saat diet panjang.",url:"https://pubmed.ncbi.nlm.nih.gov/31130465/",tags:["Hormon"],rel:71},
+  {id:52,cat:"Adherence",type:"Meta-analysis",uni:"Health Psychol Rev",y:2020,t:"Penetapan target & monitoring progres",d:"Goal SMART + progres visual (grafik, foto) naikkan kepatuhan 2–3×. (Alasan app ini ada.)",url:"https://pubmed.ncbi.nlm.nih.gov/32757813/",tags:["Behavior"],rel:72},
+  {id:53,cat:"Adherence",type:"Review",uni:"Obesity",y:2011,t:"Self-monitoring & keberhasilan penurunan berat",d:"Mencatat makanan & aktivitas konsisten = prediktor kuat keberhasilan.",url:"https://pubmed.ncbi.nlm.nih.gov/21185970/",tags:["Tracking"],rel:73},
+  {id:54,cat:"Sodium",type:"Guideline",uni:"AHA",y:2019,t:"Asupan sodium & tekanan darah",d:"Batasi sodium <2300mg/hari. Relevan untuk saus & bumbu instan.",url:"https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sodium",tags:["Sodium"],rel:64},
+  {id:55,cat:"Alkohol",type:"Review",uni:"PLOS One",y:2014,t:"Alkohol & sintesis protein otot",d:"Alkohol menekan sintesis protein otot 30–40%. Kurangi saat fase defisit.",url:"https://pubmed.ncbi.nlm.nih.gov/24533082/",tags:["Alkohol"],rel:66},
+];
+
+// ============ STATE ============
+let state = JSON.parse(localStorage.getItem('recompState') || '{"days":{},"weights":[],"expenses":[],"bookmarks":[]}');
+if(!state.expenses) state.expenses = [];
+if(!state.bookmarks) state.bookmarks = [];
+let currentDateKey = todayKey();
+
+function todayKey(d){ d = d || new Date(); return d.toISOString().slice(0,10); }
+function save(){ localStorage.setItem('recompState', JSON.stringify(state)); }
+function getDay(k){ if(!state.days[k]) state.days[k] = {food:[], activity:[], steps:0, water:0}; if(state.days[k].water===undefined) state.days[k].water=0; return state.days[k]; }
+
+
+// ============ RENDER ============
+function switchTab(t){
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelector('[data-tab="'+t+'"]').classList.add('active');
+  if(t==='ai') renderAI();
+  if(t==='budget') renderBudget();
+  if(t==='research') renderResearch();
+}
+
+function changeDay(dir){
+  const d = new Date(currentDateKey); d.setDate(d.getDate()+dir);
+  if(d > new Date()) return;
+  currentDateKey = todayKey(d);
+  renderAll();
+}
+
+function renderDate(){
+  const isToday = currentDateKey === todayKey();
+  const d = new Date(currentDateKey);
+  document.getElementById('currentDate').textContent = isToday ? 'Hari ini' :
+    d.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'});
+}
+
+function renderDashboard(){
+  const day = getDay(currentDateKey);
+  const inCal = day.food.reduce((s,f)=>s+f.c,0);
+  const outCal = day.activity.reduce((s,a)=>s+a.c,0);
+  const prot = day.food.reduce((s,f)=>s+(f.p||0),0);
+  const carb = day.food.reduce((s,f)=>s+(f.cb||0),0);
+  const fat = day.food.reduce((s,f)=>s+(f.f||0),0);
+  const sugar = day.food.reduce((s,f)=>s+(f.s||0),0);
+  const steps = day.activity.reduce((s,a)=>s+(a.s||0),0) + (day.steps||0);
+  const net = inCal - outCal;
+
+  document.getElementById('inCal').textContent = Math.round(inCal);
+  document.getElementById('outCal').textContent = Math.round(outCal);
+  document.getElementById('netCal').textContent = Math.round(net);
+  document.getElementById('mProt').textContent = Math.round(prot)+'g';
+  document.getElementById('mCarb').textContent = Math.round(carb)+'g';
+  document.getElementById('mFat').textContent = Math.round(fat)+'g';
+  const sEl=document.getElementById('mSugar'); if(sEl){ sEl.textContent=Math.round(sugar)+'g'; sEl.style.color = sugar>50?'var(--red)':'var(--green)'; }
+  document.getElementById('stepsToday').textContent = steps.toLocaleString();
+  const pPct = Math.min(100, Math.round(prot/189*100));
+  document.getElementById('proteinPct').textContent = pPct+'%';
+
+  const bar = document.getElementById('calBar');
+  const pct = Math.min(100, net/1800*100);
+  bar.style.width = Math.max(0,pct)+'%';
+  bar.style.background = net <= 1800 ? 'var(--green)' : 'var(--red)';
+
+  const msg = document.getElementById('netMsg');
+  if(inCal===0){ msg.textContent='Target: di bawah 1.800 kkal'; }
+  else if(net <= 1800){ msg.textContent='✓ Dalam target defisit'; msg.style.color='var(--green)'; }
+  else { msg.textContent='⚠ Melebihi target 1.800'; msg.style.color='var(--red)'; }
+
+  // activity log
+  const al = document.getElementById('activityLog');
+  al.innerHTML = day.activity.length ? day.activity.map((a,i)=>
+    `<div class="log-entry"><span>${a.n} · <span style="color:var(--amber)">${a.c}kkal</span>${a.s?` · ${a.s} langkah`:''}</span><span class="x" onclick="delActivity(${i})">✕</span></div>`
+  ).join('') : '<div class="note">Belum ada aktivitas.</div>';
+
+  // water
+  const water = day.water||0;
+  document.getElementById('waterMl').textContent = water;
+  const wbar = document.getElementById('waterBar');
+  wbar.style.width = Math.min(100, water/2500*100)+'%';
+  const wmsg = document.getElementById('waterMsg');
+  if(water===0) wmsg.textContent='Target 2.500ml (~10 gelas). Penting saat olahraga & defisit.';
+  else if(water>=2500){ wmsg.textContent='✓ Target tercapai! Hidrasi bagus.'; wmsg.style.color='var(--blue)'; }
+  else { wmsg.textContent=`Kurang ${2500-water}ml lagi.`; wmsg.style.color='var(--text-dim)'; }
+}
+
+function renderFoodLog(){
+  const day = getDay(currentDateKey);
+  const fl = document.getElementById('foodLog');
+  fl.innerHTML = day.food.length ? day.food.map((f,i)=>
+    `<div class="log-entry"><span>${f.n}<br><span class="note" style="font-size:11px;">${Math.round(f.c)}kkal · P${Math.round(f.p)} K${Math.round(f.cb)} L${Math.round(f.f)}${f.s?` · Gula${Math.round(f.s)}`:''}</span></span><span class="x" onclick="delFood(${i})">✕</span></div>`
+  ).join('') : '<div class="note">Belum ada makanan dicatat.</div>';
+}
+
+function searchFood(){
+  const q = document.getElementById('foodSearch').value.toLowerCase();
+  const res = document.getElementById('searchResults');
+  if(!q){ res.innerHTML=''; return; }
+  const matches = FOOD_DB.filter(f=>f.n.toLowerCase().includes(q)).slice(0,8);
+  res.innerHTML = matches.length ? matches.map((f,i)=>{
+    const idx = FOOD_DB.indexOf(f);
+    return `<div class="food-item"><div class="info"><div class="name">${f.n}</div><div class="det">${f.c}kkal · P${f.p} K${f.cb} L${f.f}</div></div><button class="add-btn" onclick="addFood(${idx})">+</button></div>`;
+  }).join('') : '<div class="note">Tidak ditemukan. Pakai input manual di bawah.</div>';
+}
+
+function addFood(idx){
+  const f = FOOD_DB[idx];
+  getDay(currentDateKey).food.push({n:f.n,c:f.c,p:f.p,cb:f.cb,f:f.f,s:f.s||0});
+  save(); renderAll();
+  document.getElementById('foodSearch').value=''; document.getElementById('searchResults').innerHTML='';
+}
+function addManualFood(){
+  const n=document.getElementById('mName').value||'Makanan';
+  const c=+document.getElementById('mCal').value||0;
+  const p=+document.getElementById('mP').value||0;
+  const cb=+document.getElementById('mC').value||0;
+  const f=+document.getElementById('mF').value||0;
+  const sug=+document.getElementById('mS').value||0;
+  if(!c && !p){ return; }
+  getDay(currentDateKey).food.push({n,c,p,cb,f,s:sug});
+  save(); renderAll();
+  ['mName','mCal','mP','mC','mF','mS'].forEach(id=>{const el=document.getElementById(id); if(el)el.value='';});
+}
+function delFood(i){ getDay(currentDateKey).food.splice(i,1); save(); renderAll(); }
+
+// ============ ESTIMATOR MAKANAN (offline, berbasis kata kunci) ============
+// Estimasi per "porsi umum" Indonesia. Format: [kkal, protein, karbo, lemak]
+const FOOD_KEYWORDS = [
+  // makanan jadi
+  {k:["nasi goreng"], v:[330,9,45,12]},
+  {k:["nasi uduk"], v:[290,6,40,11]},
+  {k:["nasi padang","rendang nasi"], v:[640,22,70,30]},
+  {k:["nasi","sego"], v:[200,4,44,0.4]},
+  {k:["mie goreng","mi goreng","indomie goreng"], v:[380,8,52,15]},
+  {k:["mie ayam","mi ayam"], v:[430,15,55,16]},
+  {k:["mie kuah","indomie","mi rebus"], v:[350,8,50,13]},
+  {k:["bakso"], v:[300,15,28,14]},
+  {k:["soto"], v:[220,18,15,9]},
+  {k:["gado","pecel","lotek"], v:[300,12,25,18]},
+  {k:["rawon"], v:[330,22,12,22]},
+  {k:["sate ayam","sate"], v:[280,24,12,15]},
+  {k:["gulai","kari"], v:[300,18,10,22]},
+  {k:["rendang"], v:[290,18,5,22]},
+  {k:["nugget"], v:[270,14,16,17]},
+  {k:["sosis"], v:[120,5,3,10]},
+  {k:["pizza"], v:[285,12,36,10]},
+  {k:["burger"], v:[350,17,30,18]},
+  {k:["kentang goreng","french fries"], v:[310,3.4,41,15]},
+  {k:["martabak manis","terang bulan"], v:[300,6,40,14]},
+  {k:["martabak telur","martabak telor"], v:[200,9,15,12]},
+  // gorengan & jajan
+  {k:["pisang bolen","bolen"], v:[180,2,24,9]},
+  {k:["pisang goreng"], v:[150,1.5,22,7]},
+  {k:["bakwan","bala-bala","ote-ote"], v:[140,3,15,8]},
+  {k:["tahu isi","tahu goreng"], v:[110,5,8,7]},
+  {k:["tempe goreng","tempe mendoan","mendoan"], v:[120,7,8,7]},
+  {k:["risol","risoles"], v:[130,4,14,7]},
+  {k:["lumpia"], v:[120,4,13,6]},
+  {k:["cireng","cilok"], v:[90,1.5,15,3]},
+  {k:["donat","donut"], v:[250,4,30,13]},
+  {k:["roti","bun"], v:[130,4,22,3]},
+  {k:["biskuit","biscuit","cookies","kue kering"], v:[140,2,18,7]},
+  {k:["kue","cake"], v:[240,3,35,10]},
+  {k:["brownies"], v:[230,3,30,12]},
+  {k:["keripik","kripik","chips"], v:[150,2,15,9]},
+  {k:["coklat","chocolate"], v:[230,3,25,13]},
+  {k:["es krim","ice cream"], v:[210,4,24,11]},
+  // protein lauk
+  {k:["ayam goreng"], v:[260,24,8,15]},
+  {k:["ayam bakar"], v:[200,28,3,9]},
+  {k:["ayam geprek"], v:[330,28,18,17]},
+  {k:["ayam"], v:[200,25,2,9]},
+  {k:["ikan goreng","lele","mujair","nila","kembung"], v:[200,22,3,11]},
+  {k:["telur dadar","telur ceplok","telur mata"], v:[110,7,1,9]},
+  {k:["telur balado","telur bumbu"], v:[130,7,4,9]},
+  {k:["telur"], v:[78,6.3,0.6,5.3]},
+  {k:["udang"], v:[99,24,0.2,0.3]},
+  {k:["daging sapi","sapi","beef"], v:[250,26,0,16]},
+  {k:["tempe"], v:[190,19,9,11]},
+  {k:["tahu"], v:[80,8,2,5]},
+  // sayur & buah
+  {k:["sayur","tumis","capcay","cah"], v:[90,3,9,5]},
+  {k:["salad"], v:[80,3,10,4]},
+  {k:["pepaya","semangka","melon"], v:[40,0.6,10,0.2]},
+  {k:["jeruk","apel","mangga","pir","buah"], v:[70,0.8,18,0.3]},
+  {k:["alpukat","avocado"], v:[160,2,9,15]},
+  {k:["pisang"], v:[105,1.3,27,0.4]},
+  {k:["anggur","grape"], v:[70,0.7,18,0.2]},
+  // minuman
+  {k:["es teh","teh manis","teh es"], v:[90,0,22,0]},
+  {k:["teh tawar","teh tanpa gula"], v:[2,0,0.5,0]},
+  {k:["kopi susu","es kopi","latte","cappuccino","kopi gula"], v:[180,3,26,6]},
+  {k:["kopi hitam","americano","espresso"], v:[5,0.3,0,0]},
+  {k:["jus","juice"], v:[120,1,28,0.3]},
+  {k:["soda","cola","sprite","fanta","soft drink"], v:[140,0,39,0]},
+  {k:["boba","bubble tea","milk tea","thai tea"], v:[280,2,55,5]},
+  {k:["susu coklat","milo","susu"], v:[150,8,16,6]},
+  {k:["air kelapa"], v:[45,1.7,9,0.5]},
+  {k:["smoothie","milkshake"], v:[250,6,40,7]},
+  {k:["yogurt","yakult"], v:[90,4,15,1.5]},
+];
+
+function estimateFood(){
+  const raw=(document.getElementById('mName').value||'').toLowerCase().trim();
+  const msg=document.getElementById('estMsg');
+  if(!raw){ msg.innerHTML='<span style="color:var(--amber)">Ketik nama makanan dulu.</span>'; return; }
+
+  // perkiraan gula berdasarkan kata kunci manis
+  const sweetWords=['manis','gula','aren','boba','teh','soda','cola','sprite','fanta','jus','juice','sirup','susu coklat','milo','es krim','ice cream','coklat','chocolate','kue','cake','donat','donut','bolen','brownies','smoothie','milkshake','permen','candy','madu','kental manis'];
+  const sugarGuess=(cb)=>{ const isSweet=sweetWords.some(w=>raw.includes(w)); return isSweet?Math.round(cb*0.85):Math.round(cb*0.1); };
+
+  // 1) cek database utama dulu (paling akurat)
+  let hit=FOOD_DB.find(f=>f.n.toLowerCase().includes(raw)||raw.includes(f.n.toLowerCase().split(' ')[0]));
+  if(hit){ fillEst(hit.c,hit.p,hit.cb,hit.f,hit.s!=null?hit.s:sugarGuess(hit.cb)); msg.innerHTML=`<span style="color:var(--green)">✓ Cocok database: ${hit.n}. Sesuaikan jika porsi beda.</span>`; return; }
+
+  // 2) cek kata kunci
+  let matches=FOOD_KEYWORDS.filter(e=>e.k.some(kw=>raw.includes(kw)));
+  if(matches.length){
+    const v=matches[0].v;
+    fillEst(v[0],v[1],v[2],v[3],v[4]!=null?v[4]:sugarGuess(v[2]));
+    msg.innerHTML=`<span style="color:var(--green)">✨ Estimasi untuk "${raw}" (porsi umum). Cek & sesuaikan kalau perlu.</span>`;
+    return;
+  }
+
+  // 3) tidak ketemu — estimasi kasar default
+  fillEst(200,8,25,8,sugarGuess(25));
+  msg.innerHTML='<span style="color:var(--amber)">⚠ Tidak dikenali. Aku isi estimasi kasar (200kkal). Sebaiknya cek label & sesuaikan manual.</span>';
+}
+function fillEst(c,p,cb,f,s){
+  document.getElementById('mCal').value=Math.round(c);
+  document.getElementById('mP').value=p;
+  document.getElementById('mC').value=cb;
+  document.getElementById('mF').value=f;
+  const sEl=document.getElementById('mS'); if(sEl) sEl.value=(s!=null?Math.round(s):'');
+}
+
+function addActivity(){
+  const n=document.getElementById('actName').value||'Aktivitas';
+  const c=+document.getElementById('actCal').value||0;
+  const s=+document.getElementById('actSteps').value||0;
+  if(!c && !s) return;
+  getDay(currentDateKey).activity.push({n,c,s});
+  save(); renderAll();
+  ['actName','actCal','actSteps'].forEach(id=>document.getElementById(id).value='');
+}
+function delActivity(i){ getDay(currentDateKey).activity.splice(i,1); save(); renderAll(); }
+
+function addWater(ml){
+  const day=getDay(currentDateKey);
+  day.water=Math.max(0,(day.water||0)+ml);
+  save(); renderDashboard();
+}
+
+function renderQuickActivities(){
+  document.getElementById('quickActivities').innerHTML = QUICK_ACTIVITIES.map((a,i)=>
+    `<div class="chip" onclick="quickAct(${i})">${a.n} · ${a.c}kkal</div>`).join('');
+}
+function quickAct(i){
+  const a=QUICK_ACTIVITIES[i];
+  getDay(currentDateKey).activity.push({n:a.n,c:a.c,s:a.s});
+  save(); renderAll();
+}
+
+// ============ RESEARCH UNIFIED ============
+const THREAD = [
+  ['',"Protein tinggi (2.0–2.4g/kg) = kunci utama jaga & bangun otot saat defisit"],
+  ['',"Resistance training wajib — tanpa beban, defisit membuang otot"],
+  ['imp',"Sebar protein ke 4 kali makan, ~0.4g/kg per makan (≈34g)"],
+  ['',"Pemula + kelebihan berat = recomposition paling cepat (kondisi kamu sekarang)"],
+  ['',"Rate loss 0.5–1kg/minggu menjaga otot — jangan terlalu cepat"],
+  ['imp',"Tidur 7–8 jam pilar ke-4: hormon lapar/kenyang stabil, otot pulih"],
+  ['',"Hidrasi 2.5L bantu metabolisme, performa & kontrol nafsu makan"],
+  ['warn',"Gula tambahan <50g/hari (WHO); whey/protein hewani unggul untuk otot"],
+];
+
+function renderResearch(){
+  // benang merah
+  document.getElementById('threadContent').innerHTML = THREAD.map(([c,t])=>`<div class="ai-line ${c}">${t}</div>`).join('');
+  // relevan untukmu (scoring dinamis)
+  renderRelevant();
+  renderRefs();
+  renderBookmarks();
+}
+
+function scoreResearch(r){
+  let s=r.rel;
+  // hitung metrik 7 hari terakhir
+  const keys=Object.keys(state.days).sort().slice(-7);
+  let prot=0,water=0,sugar=0,n=0,actDays=0;
+  keys.forEach(k=>{ const d=state.days[k]; const inC=d.food.reduce((a,f)=>a+f.c,0);
+    if(inC>0){ prot+=d.food.reduce((a,f)=>a+(f.p||0),0); sugar+=d.food.reduce((a,f)=>a+(f.s||0),0); n++; }
+    if(d.water) water+=d.water;
+    if(d.activity&&d.activity.length) actDays++;
+  });
+  const avgProt=n?prot/n:0, avgWater=n?water/n:0, avgSugar=n?sugar/n:0;
+  if(avgProt<160 && r.cat==='Protein') s+=15;
+  if(avgWater<1800 && r.cat==='Hidrasi') s+=15;
+  if(avgSugar>50 && r.cat==='Gula') s+=15;
+  if(actDays<3 && (r.cat==='Latihan'||r.cat==='Kardio')) s+=12;
+  if(r.type==='RCT') s+=3;
+  if(r.y>=2023) s+=2;
+  return s;
+}
+
+function renderRelevant(){
+  const ranked=[...RESEARCH_DB].map(r=>({r,s:scoreResearch(r)})).sort((a,b)=>b.s-a.s).slice(0,4);
+  document.getElementById('relevantList').innerHTML = ranked.map(({r,s})=>refCard(r,Math.min(99,Math.round(s)))).join('');
+}
+
+function refCard(r,score){
+  const bm=state.bookmarks.includes(r.id);
+  return `<div class="study" style="position:relative;">
+    <div class="uni">${r.cat} · ${r.uni} (${r.y}) · ${r.type}</div>
+    <h3>${r.t}</h3>
+    <div class="finding">${r.d}</div>
+    <div style="margin-top:6px;">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <a href="${r.url}" target="_blank" rel="noopener" class="btn btn-sm" style="text-decoration:none;text-align:center;">Baca full →</a>
+      <button class="btn btn-sm btn-ghost" onclick="toggleBookmark(${r.id})" style="${bm?'color:var(--purple);border-color:var(--purple);':''}">${bm?'♥ Tersimpan':'♡ Bookmark'}</button>
+    </div>
+    ${score?`<div style="position:absolute;top:10px;right:10px;font-size:10px;color:var(--green);font-weight:600;">${score}%</div>`:''}
+  </div>`;
+}
+
+let refFilter='Semua';
+function renderRefs(){
+  const cats=['Semua',...[...new Set(RESEARCH_DB.map(r=>r.cat))]];
+  const cf=document.getElementById('refCatFilter');
+  if(cf) cf.innerHTML=cats.map(c=>`<div class="chip" style="${c===refFilter?'background:var(--green-deep);border-color:var(--green-deep);color:#fff;':''}" onclick="setRefFilter('${c}')">${c}</div>`).join('');
+  const q=(document.getElementById('refSearch')?.value||'').toLowerCase();
+  let list=RESEARCH_DB.filter(r=>{
+    const okCat=refFilter==='Semua'||r.cat===refFilter;
+    const okQ=!q||(r.t+r.d+r.uni+r.cat+r.tags.join()).toLowerCase().includes(q);
+    return okCat&&okQ;
+  }).sort((a,b)=>b.rel-a.rel);
+  const rl=document.getElementById('refList');
+  rl.innerHTML=`<div class="note" style="margin-bottom:8px;">${list.length} paper</div>`+list.map(r=>refCard(r,0)).join('');
+}
+function setRefFilter(c){ refFilter=c; renderRefs(); }
+
+function toggleBookmark(id){
+  const i=state.bookmarks.indexOf(id);
+  if(i>-1) state.bookmarks.splice(i,1); else state.bookmarks.push(id);
+  save(); renderResearch();
+}
+
+function renderBookmarks(){
+  const bm=RESEARCH_DB.filter(r=>state.bookmarks.includes(r.id));
+  document.getElementById('bookmarkCount').textContent=bm.length;
+  document.getElementById('bookmarkList').innerHTML = bm.length
+    ? bm.map(r=>`<div class="log-entry"><a href="${r.url}" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none;flex:1;">${r.t}<br><span class="note" style="font-size:11px;">${r.uni}</span></a><span class="x" onclick="toggleBookmark(${r.id})">✕</span></div>`).join('')
+    : '<div class="note">Tap ♡ pada paper untuk simpan ke sini.</div>';
+}
+
+// ============ AI EVAL ============
+function renderAI(){
+  const keys = Object.keys(state.days).sort().slice(-7);
+  let totIn=0,totOut=0,totProt=0,totWater=0,nWater=0,n=0;
+  keys.forEach(k=>{
+    const d=state.days[k];
+    const inC=d.food.reduce((s,f)=>s+f.c,0);
+    if(inC>0||d.activity.length||d.water){
+      totIn+=inC; totOut+=d.activity.reduce((s,a)=>s+a.c,0);
+      totProt+=d.food.reduce((s,f)=>s+(f.p||0),0); n++;
+    }
+    if(d.water){ totWater+=d.water; nWater++; }
+  });
+  document.getElementById('avg7in').textContent = n? Math.round(totIn/n)+' kkal':'—';
+  document.getElementById('avg7out').textContent = n? Math.round(totOut/n)+' kkal':'—';
+  document.getElementById('avg7prot').textContent = n? Math.round(totProt/n)+' g':'—';
+  document.getElementById('days7').textContent = n+' / 7';
+  const aw=document.getElementById('avg7water'); if(aw) aw.textContent = nWater? Math.round(totWater/nWater)+' ml':'—';
+
+  // streak grid - last 14 days
+  let sg='';
+  for(let i=13;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const k=todayKey(d); const day=state.days[k];
+    const done = day && (day.food.length || day.activity.length);
+    sg+=`<div class="streak-day ${done?'done':''}">${d.getDate()}</div>`;
+  }
+  document.getElementById('streakGrid').innerHTML=sg;
+
+  // AI evaluation logic
+  const ai=document.getElementById('aiEval');
+  if(n===0){ ai.innerHTML='<div class="note">Catat makanan & aktivitas beberapa hari untuk evaluasi yang lebih akurat.</div>'; renderWeightHistory(); return; }
+  const avgIn=totIn/n, avgProt=totProt/n, avgOut=totOut/n;
+  let lines=[];
+
+  if(avgProt < 120) lines.push(['warn',`Protein rata-rata ${Math.round(avgProt)}g masih jauh dari target 189g. Ini risiko terbesar untuk kehilangan otot. Tambah ayam/telur/whey di tiap makan.`]);
+  else if(avgProt < 160) lines.push(['imp',`Protein ${Math.round(avgProt)}g sudah lumayan, tapi dorong ke 160–189g untuk hasil otot maksimal. Tambah ~1 sumber protein lagi per hari.`]);
+  else lines.push(['', `Protein ${Math.round(avgProt)}g — sangat baik! Ini fondasi recomposition yang benar. Pertahankan.`]);
+
+  if(avgIn > 2000) lines.push(['warn',`Kalori masuk rata-rata ${Math.round(avgIn)} — di atas target. Untuk defisit, incar ~1.800. Cek porsi karbo & saus.`]);
+  else if(avgIn < 1400) lines.push(['warn',`Kalori ${Math.round(avgIn)} terlalu rendah — defisit terlalu agresif bisa membuang otot & bikin lemas. Naikkan sedikit, terutama protein.`]);
+  else lines.push(['',`Kalori masuk ${Math.round(avgIn)} — zona defisit yang sehat. Pas untuk turun lemak bertahap.`]);
+
+  if(avgOut < 150) lines.push(['imp',`Aktivitas bakar kalori rata-rata ${Math.round(avgOut)} masih ringan. Tambah jalan/sepeda — kamu sudah kuat di zona aerobik.`]);
+  else lines.push(['',`Aktivitas bakar ${Math.round(avgOut)}kkal/hari — konsisten bergerak. Bagus!`]);
+
+  if(nWater){ const avgW=totWater/nWater;
+    if(avgW<1800) lines.push(['warn',`Minum air rata-rata ${Math.round(avgW)}ml masih kurang. Target 2.500ml — hidrasi bantu metabolisme, performa & rasa kenyang.`]);
+    else lines.push(['',`Hidrasi ${Math.round(avgW)}ml/hari — bagus, pertahankan terutama di hari latihan.`]);
+  }
+
+  if(n>=5) lines.push(['',`Kamu mencatat ${n} hari terakhir — konsistensi tracking ini sendiri prediktor kuat keberhasilan. Lanjutkan!`]);
+  else lines.push(['imp',`Baru ${n} hari tercatat. Makin rutin mencatat, makin akurat evaluasi & makin besar peluang berhasil.`]);
+
+  // weight trend
+  if(state.weights.length>=2){
+    const first=state.weights[0], last=state.weights[state.weights.length-1];
+    const diff=(last.w-first.w).toFixed(1);
+    if(diff<0) lines.push(['',`Berat turun ${Math.abs(diff)}kg sejak mulai tracking. Progres nyata — terus pantau lingkar perut juga.`]);
+    else if(diff>0) lines.push(['warn',`Berat naik ${diff}kg. Kalau lingkar perut tetap/turun & kekuatan naik, mungkin otot bertambah. Tapi cek asupan kalori.`]);
+  }
+
+  ai.innerHTML = lines.map(([cls,txt])=>`<div class="ai-line ${cls}">${txt}</div>`).join('');
+  renderWeightHistory();
+  drawWeightChart();
+  drawCalChart();
+  drawWaterChart();
+  drawProteinChart();
+}
+
+// ============ CHARTS (canvas, no library) ============
+function drawLineChart(canvasId, datasets, opts){
+  const cv=document.getElementById(canvasId); if(!cv) return;
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.clientWidth, H=cv.height;
+  cv.width=W*dpr; cv.style.width=W+'px';
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const padL=34,padR=10,padT=12,padB=22;
+  const allVals=datasets.flatMap(d=>d.data.filter(v=>v!=null));
+  if(!allVals.length){ ctx.fillStyle='#5f7061'; ctx.font='13px Outfit'; ctx.textAlign='center'; ctx.fillText('Belum ada data',W/2,H/2); return; }
+  let min=opts.min!=null?opts.min:Math.min(...allVals);
+  let max=opts.max!=null?opts.max:Math.max(...allVals);
+  if(opts.target){ min=Math.min(min,opts.target); max=Math.max(max,opts.target); }
+  const range=(max-min)||1; min-=range*0.1; max+=range*0.1;
+  const n=datasets[0].data.length;
+  const x=i=>padL+(W-padL-padR)*(n<=1?0.5:i/(n-1));
+  const y=v=>padT+(H-padT-padB)*(1-(v-min)/(max-min));
+  // grid
+  ctx.strokeStyle='#2a3329'; ctx.lineWidth=1; ctx.fillStyle='#5f7061'; ctx.font='10px Outfit'; ctx.textAlign='right';
+  for(let g=0;g<=3;g++){ const v=min+(max-min)*g/3, yy=y(v);
+    ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(W-padR,yy); ctx.stroke();
+    ctx.fillText(Math.round(v),padL-5,yy+3); }
+  // target line
+  if(opts.target){ ctx.strokeStyle='#5f7061'; ctx.setLineDash([4,4]); ctx.beginPath(); ctx.moveTo(padL,y(opts.target)); ctx.lineTo(W-padR,y(opts.target)); ctx.stroke(); ctx.setLineDash([]); }
+  // datasets
+  datasets.forEach(ds=>{
+    if(ds.bar){
+      ds.data.forEach((v,i)=>{ if(v==null)return; const bw=(W-padL-padR)/n*0.35; const bx=x(i)+(ds.offset||0);
+        ctx.fillStyle=ds.color; ctx.fillRect(bx-bw/2,y(v),bw,H-padB-y(v)); });
+    } else {
+      ctx.strokeStyle=ds.color; ctx.lineWidth=2; ctx.beginPath(); let started=false;
+      ds.data.forEach((v,i)=>{ if(v==null)return; if(!started){ctx.moveTo(x(i),y(v));started=true;}else ctx.lineTo(x(i),y(v)); });
+      ctx.stroke();
+      ds.data.forEach((v,i)=>{ if(v==null)return; ctx.fillStyle=ds.color; ctx.beginPath(); ctx.arc(x(i),y(v),3,0,7); ctx.fill(); });
+    }
+  });
+  // x labels
+  ctx.fillStyle='#5f7061'; ctx.font='9px Outfit'; ctx.textAlign='center';
+  opts.labels.forEach((lb,i)=>{ if(n<=7||i%2===0) ctx.fillText(lb,x(i),H-7); });
+}
+
+function drawWeightChart(){
+  const ws=state.weights.slice(-12);
+  const labels=ws.map(w=>new Date(w.d).toLocaleDateString('id-ID',{day:'numeric',month:'numeric'}));
+  drawLineChart('weightChart',[
+    {data:ws.map(w=>w.w),color:'#4ade80'},
+    {data:ws.map(w=>w.waist),color:'#fbbf24'}
+  ],{labels});
+  document.getElementById('chartLegendW').innerHTML='<span style="color:var(--green)">●</span> Berat (kg) &nbsp; <span style="color:var(--amber)">●</span> Lingkar perut (cm)';
+}
+
+function drawCalChart(){
+  const labels=[],inD=[],outD=[];
+  for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const k=todayKey(d); const day=state.days[k];
+    labels.push(d.getDate());
+    inD.push(day?day.food.reduce((s,f)=>s+f.c,0)||null:null);
+    outD.push(day?day.activity.reduce((s,a)=>s+a.c,0)||null:null);
+  }
+  drawLineChart('calChart',[
+    {data:inD,color:'#4ade80',bar:true,offset:-7},
+    {data:outD,color:'#fbbf24',bar:true,offset:7}
+  ],{labels,min:0,target:1800});
+}
+
+function drawWaterChart(){
+  const labels=[],wD=[];
+  for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const k=todayKey(d); const day=state.days[k];
+    labels.push(d.getDate());
+    wD.push(day&&day.water?day.water:null);
+  }
+  drawLineChart('waterChart',[{data:wD,color:'#60a5fa',bar:true}],{labels,min:0,target:2500});
+}
+
+function drawProteinChart(){
+  const labels=[],pD=[];
+  for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const k=todayKey(d); const day=state.days[k];
+    labels.push(d.getDate());
+    pD.push(day&&day.food.length?Math.round(day.food.reduce((s,f)=>s+(f.p||0),0)):null);
+  }
+  drawLineChart('proteinChart',[{data:pD,color:'#4ade80'}],{labels,min:0,target:189});
+}
+
+// ============ EXPORT / IMPORT ============
+function exportData(){
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='diet-ahmad-backup-'+todayKey()+'.json';
+  a.click(); URL.revokeObjectURL(url);
+  document.getElementById('backupMsg').innerHTML='<span style="color:var(--green)">✓ Data berhasil di-export. Simpan file ini baik-baik.</span>';
+}
+function importData(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const imported=JSON.parse(ev.target.result);
+      if(!imported.days){ throw new Error('format'); }
+      // merge: imported wins for overlapping days, keep both weights
+      state.days=Object.assign({},state.days,imported.days);
+      const allW=[...(state.weights||[]),...(imported.weights||[])];
+      const seen={}; state.weights=allW.filter(w=>{const k=w.d+w.w; if(seen[k])return false; seen[k]=1; return true;}).sort((a,b)=>a.d<b.d?-1:1);
+      const allE=[...(state.expenses||[]),...(imported.expenses||[])];
+      const seenE={}; state.expenses=allE.filter(e=>{const k=e.d+e.n+e.amt; if(seenE[k])return false; seenE[k]=1; return true;});
+      if(imported.bookmarks) state.bookmarks=[...new Set([...(state.bookmarks||[]),...imported.bookmarks])];
+      save(); renderAll(); renderAI();
+      document.getElementById('backupMsg').innerHTML='<span style="color:var(--green)">✓ Data berhasil di-import & digabung!</span>';
+    }catch(err){
+      document.getElementById('backupMsg').innerHTML='<span style="color:var(--red)">✕ File tidak valid. Pastikan file backup .json yang benar.</span>';
+    }
+  };
+  reader.readAsText(file);
+}
+function resetData(){
+  if(confirm('Yakin hapus SEMUA data? Tidak bisa dikembalikan. Sebaiknya Export dulu.')){
+    state={days:{},weights:[],expenses:[]}; save(); renderAll(); renderAI();
+    document.getElementById('backupMsg').innerHTML='Data direset.';
+  }
+}
+
+function logWeight(){
+  const w=+document.getElementById('weightIn').value;
+  const waist=+document.getElementById('waistIn').value;
+  if(!w) return;
+  state.weights.push({d:todayKey(),w,waist:waist||null});
+  save();
+  document.getElementById('weightIn').value=''; document.getElementById('waistIn').value='';
+  renderAI();
+}
+function renderWeightHistory(){
+  const wh=document.getElementById('weightHistory');
+  if(!state.weights.length){ wh.innerHTML='<div class="note">Belum ada data. Catat tiap 1–2 minggu, pagi sebelum makan.</div>'; return; }
+  wh.innerHTML = state.weights.slice(-6).reverse().map(w=>
+    `<div class="kv"><span class="k">${new Date(w.d).toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</span><span class="v">${w.w}kg${w.waist?` · ${w.waist}cm`:''}</span></div>`
+  ).join('');
+}
+
+function renderAll(){ renderDate(); renderDashboard(); renderFoodLog(); }
+
+// ============ BUDGET TRACKER ============
+const CAT_COLORS = {Makanan:'#4ade80', Suplemen:'#60a5fa', Gym:'#fbbf24', Alat:'#c084fc', Lainnya:'#94a3b8'};
+function monthKey(d){ d=d||new Date(); return d.toISOString().slice(0,7); }
+function rupiah(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
+
+function addExpense(){
+  const n=document.getElementById('expName').value||'Pengeluaran';
+  const amt=+document.getElementById('expAmount').value||0;
+  const cat=document.getElementById('expCat').value;
+  const recur=document.getElementById('expRecur').value;
+  if(!amt) return;
+  state.expenses.push({d:todayKey(),n,amt,cat,recur});
+  save(); renderBudget();
+  document.getElementById('expName').value=''; document.getElementById('expAmount').value='';
+}
+function delExpense(i){ state.expenses.splice(i,1); save(); renderBudget(); }
+
+function renderBudget(){
+  const thisMonth=monthKey();
+  const monthExp=state.expenses.filter(e=>e.d.slice(0,7)===thisMonth);
+  // add recurring from previous months not yet in this month
+  const recurringTotal=state.expenses.filter(e=>e.recur==='monthly' && e.d.slice(0,7)!==thisMonth)
+    .reduce((acc,e)=>{ if(!monthExp.find(m=>m.n===e.n)) acc.push(e); return acc;},[]);
+  const total=monthExp.reduce((s,e)=>s+e.amt,0);
+  document.getElementById('budgetTotal').textContent=rupiah(total);
+  const recurCount=monthExp.filter(e=>e.recur==='monthly').length;
+  document.getElementById('budgetMsg').textContent=`${monthExp.length} transaksi${recurCount?` · ${recurCount} rutin/bulan`:''}`;
+
+  // breakdown by category
+  const byCat={};
+  monthExp.forEach(e=>{ byCat[e.cat]=(byCat[e.cat]||0)+e.amt; });
+  const bd=document.getElementById('budgetBreakdown');
+  bd.innerHTML=Object.keys(byCat).length?Object.entries(byCat).sort((a,b)=>b[1]-a[1]).map(([c,v])=>
+    `<div class="kv"><span class="k"><span style="color:${CAT_COLORS[c]}">●</span> ${c}</span><span class="v">${rupiah(v)} · ${Math.round(v/total*100)}%</span></div>`
+  ).join(''):'<div class="note">Belum ada data bulan ini.</div>';
+
+  // pie-ish bar chart
+  drawBudgetChart(byCat,total);
+  drawBudgetTrend();
+
+  // history
+  const el=document.getElementById('expenseLog');
+  const sorted=[...state.expenses].sort((a,b)=>a.d<b.d?1:-1);
+  el.innerHTML=sorted.length?sorted.slice(0,30).map(e=>{
+    const i=state.expenses.indexOf(e);
+    return `<div class="log-entry"><span><span style="color:${CAT_COLORS[e.cat]}">●</span> ${e.n}${e.recur==='monthly'?' 🔁':''}<br><span class="note" style="font-size:11px;">${new Date(e.d).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} · ${e.cat}</span></span><span style="display:flex;align-items:center;gap:8px;"><b>${rupiah(e.amt)}</b><span class="x" onclick="delExpense(${i})">✕</span></span></div>`;
+  }).join(''):'<div class="note">Belum ada pengeluaran dicatat.</div>';
+}
+
+function drawBudgetChart(byCat,total){
+  const cv=document.getElementById('budgetChart'); if(!cv) return;
+  const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=cv.height;
+  cv.width=W*dpr; cv.style.width=W+'px'; const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const entries=Object.entries(byCat);
+  if(!entries.length){ ctx.fillStyle='#5f7061'; ctx.font='13px Outfit'; ctx.textAlign='center'; ctx.fillText('Belum ada data',W/2,H/2); return; }
+  // donut
+  const cx=W*0.32, cy=H/2, r=Math.min(H/2-8,60), ir=r*0.6; let start=-Math.PI/2;
+  entries.forEach(([c,v])=>{ const ang=v/total*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+ang); ctx.closePath();
+    ctx.fillStyle=CAT_COLORS[c]; ctx.fill(); start+=ang; });
+  ctx.beginPath(); ctx.arc(cx,cy,ir,0,Math.PI*2); ctx.fillStyle='#1a211b'; ctx.fill();
+  ctx.fillStyle='#e8efe9'; ctx.font='600 13px Outfit'; ctx.textAlign='center';
+  ctx.fillText(rupiah(total).replace('Rp ','Rp'),cx,cy+4);
+  // legend
+  ctx.textAlign='left'; ctx.font='11px Outfit'; let ly=cy-entries.length*9+8;
+  entries.forEach(([c,v])=>{ ctx.fillStyle=CAT_COLORS[c]; ctx.fillRect(W*0.62,ly-8,10,10);
+    ctx.fillStyle='#8fa491'; ctx.fillText(`${c} ${Math.round(v/total*100)}%`,W*0.62+16,ly); ly+=18; });
+}
+
+function drawBudgetTrend(){
+  const months={};
+  state.expenses.forEach(e=>{ const m=e.d.slice(0,7); months[m]=(months[m]||0)+e.amt; });
+  const keys=Object.keys(months).sort().slice(-6);
+  const labels=keys.map(k=>{const [y,m]=k.split('-'); return ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'][+m-1];});
+  drawLineChart('budgetTrendChart',[{data:keys.map(k=>months[k]),color:'#4ade80',bar:true}],{labels,min:0});
+}
+
+
+// init
+renderQuickActivities();
+renderResearch();
+renderAll();
+</script>
+</body>
+</html>
