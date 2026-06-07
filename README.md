@@ -336,7 +336,7 @@ MIT License — free untuk personal use, education, research.
 
 **Last Updated:** May 2026  
 **Version:** 1.0 Production  
-**Maintainer:** Ahmad Razaq  
+**Maintainer:** Ahmad
 
 ---
 
